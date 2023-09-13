@@ -196,11 +196,11 @@ class apriori:
 
 
               print(f'starting {k-1} items in basket loop')
-              self.minSupport = self.minSupport/(k+2)
+              minSupport = self.minSupport/(k+1)
               #filtering phase to select real frequent items
               combined_k = allItemsRdd.flatMap(lambda sentence: [(tuple(candidate),1) for candidate in candidates if set(list(candidate)).issubset(set(sentence))])\
                                       .reduceByKey(lambda y,x:x+y)\
-                                      .filter(lambda item : item[1]>= self.minSupport)
+                                      .filter(lambda item : item[1]>= minSupport)
 
               support = support.union(combined_k)
               print(f'added frequent baskets with {k-1} items')
